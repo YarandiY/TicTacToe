@@ -91,15 +91,20 @@ public class TicTacToe {
 
         int bestWayI = 0;
         int bestWayJ = 0;
-        for (int i = 0; i < 3; i++) {
+        in : for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 3; j++) {
+                if(ticTacToe.getTurn().equals("X") && minYAmax == -1)
+                    break in;
+                if(ticTacToe.getTurn().equals("O") && minYAmax == 1)
+                    break in;
                 TicTacToe tmp = new TicTacToe(ticTacToe.board);
                 tmp.setTurn(ticTacToe.getTurn());
                 try {
                     tmp.input(i * 3 + j);
                 } catch (Exception e) {
-                    if (tmp.endOfGame())
+                    if (tmp.endOfGame()) {
                         return new int[]{-1, -1, ticTacToe.whoWin()};
+                    }
                     continue;
                 }
                 int value = minMax(tmp)[2];
@@ -107,7 +112,7 @@ public class TicTacToe {
                     minYAmax = value;
                     bestWayI = i;
                     bestWayJ = j;
-                } else if (ticTacToe.getTurn().equals("O") && minYAmax < value) {
+                }if (ticTacToe.getTurn().equals("O") && minYAmax < value) {
                     minYAmax = value;
                     bestWayI = i;
                     bestWayJ = j;
@@ -170,8 +175,8 @@ public class TicTacToe {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
         TicTacToe ticTacToe = new TicTacToe();
-        ticTacToe.turn = "X";
-
+        ticTacToe.setTurn("X");
+        System.out.println();
         System.out.println("Welcome to one player Tic Tac Toe.");
         System.out.println("X's will play first. Enter a slot number to place X in:");
 
@@ -195,6 +200,8 @@ public class TicTacToe {
             }
             ticTacToe.printBoard();
         }
+
+        System.out.println();
 
         if(ticTacToe.whoWin() == -1)
             System.out.println("Congratulations! you have won! :)" + "\n" + "Thanks for playing.");
