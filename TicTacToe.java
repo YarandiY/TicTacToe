@@ -3,7 +3,7 @@ import java.util.Scanner;
 
 /**
  * @author Yalda Yarandi
- * tic-tac-toe game with AI (min-max algorithm)
+ * tic-tac-toe game with AI (min-max algorithm with alpha–beta pruning)
  */
 
 
@@ -75,11 +75,20 @@ public class TicTacToe {
     }
 
 
+    /**
+     * It make the min-max tree of game
+     * @param ticTacToe : a state of board
+     * @return an array that the first parameter is the row of best slot to put,
+     * the second is the column of best slot and
+     * the last on is the value of state.
+     */
+
     public static int[] minMax(TicTacToe ticTacToe) {
 
         int[] ans = new int[3];
 
         int minYAmax;
+
         if (ticTacToe.getTurn().equals("X")) {
             minYAmax = Integer.MAX_VALUE;
         } else {
@@ -93,10 +102,13 @@ public class TicTacToe {
         int bestWayJ = 0;
         in : for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 3; j++) {
+
+                //Alpha–beta pruning
                 if(ticTacToe.getTurn().equals("X") && minYAmax == -1)
                     break in;
                 if(ticTacToe.getTurn().equals("O") && minYAmax == 1)
                     break in;
+
                 TicTacToe tmp = new TicTacToe(ticTacToe.board);
                 tmp.setTurn(ticTacToe.getTurn());
                 try {
